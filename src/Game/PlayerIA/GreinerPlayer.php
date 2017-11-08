@@ -27,16 +27,43 @@ class GreinerPlayer extends Player
         
         $proba_scissors = $enemy['scissors'] / ($NumRound + 1);
         $proba_paper = $enemy['paper'] / ($NumRound + 1);
-        // $proba_rock = $enemy['rock'] / ($NumRound + 1);
-        
-        $choice = parent::paperChoice();         
-        if ($proba_scissors > 0.5) {
-            $choice = parent::rockChoice();
-        } elseif ($proba_paper > 0.5) {
-            $choice = parent::scissorsChoice();
+        $proba_rock = $enemy['rock'] / ($NumRound + 1);
+        $last_opponent_score = $this->result->getLastScoreFor($this->opponentSide);
+        $last_opponent_choice = $this->result->getLastChoiceFor($this->opponentSide);
+        $last_me_choice = $this->result->getLastChoiceFor($this->mySide);
+        $choice = parent::paperChoice();
+        if (0 !== $last_opponent_choice) {
+            if ($proba_scissors > 0.5) {
+                if ($last_opponent_score === 5 && $last_opponent_choice == parent::paperChoice()) {
+                    $choice = parent::scissorsChoice();                    
+                } elseif ($last_opponent_score === 0) {
+                    $choice = $last_me_choice;
+                }
+                else {
+                    $choice = parent::rockChoice();
+                }
+            } elseif ($proba_paper > 0.5) {
+                if ($last_opponent_score === 5 && $last_opponent_choice == parent::rockChoice()) {
+                    $choice = parent::paperChoice();                    
+                } elseif ($last_opponent_score === 0) {
+                    $choice = $last_me_choice;
+                }
+                else {
+                    $choice = parent::scissorsChoice();
+                }
+            } elseif ($proba_rock > 0.5) {
+                if ($last_opponent_score === 5 && $last_opponent_choice == parent::scissorsChoice()) {
+                    $choice = parent::rockChoice();                    
+                } elseif ($last_opponent_score === 0) {
+                    $choice = $last_me_choice;
+                }
+                else {
+                    $choice = parent::paperChoice();
+                }
+            }
         }
         return $choice;
-
+        
         // -------------------------------------    -----------------------------------------------------
         // How to get my Last Choice           ?    $this->result->getLastChoiceFor($this->mySide) -- if 0 (first round)
         // How to get the opponent Last Choice ?    $this->result->getLastChoiceFor($this->opponentSide) -- if 0 (first round)
