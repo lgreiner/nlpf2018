@@ -17,6 +17,26 @@ class GreinerPlayer extends Player
 
     public function getChoice()
     {
+        $NumRound = $this->result->getNbRound();
+        $enemy = $this->result->getStatsFor($this->opponentSide);
+        // [name] => Baccam
+        // [scissors] => 53
+        // [paper] => 0
+        // [rock] => 0
+        // [score] => 53
+        
+        $proba_scissors = $enemy['scissors'] / ($NumRound + 1);
+        $proba_paper = $enemy['paper'] / ($NumRound + 1);
+        // $proba_rock = $enemy['rock'] / ($NumRound + 1);
+        
+        $choice = parent::paperChoice();         
+        if ($proba_scissors > 0.5) {
+            $choice = parent::rockChoice();
+        } elseif ($proba_paper > 0.5) {
+            $choice = parent::scissorsChoice();
+        }
+        return $choice;
+
         // -------------------------------------    -----------------------------------------------------
         // How to get my Last Choice           ?    $this->result->getLastChoiceFor($this->mySide) -- if 0 (first round)
         // How to get the opponent Last Choice ?    $this->result->getLastChoiceFor($this->opponentSide) -- if 0 (first round)
@@ -40,15 +60,5 @@ class GreinerPlayer extends Player
         // -------------------------------------    -----------------------------------------------------
         // How can i display the result of each round ? $this->prettyDisplay()
         // -------------------------------------    -----------------------------------------------------
-
-        $NumRound = $this->result->getNbRound();
-        $choice = parent::paperChoice();                    
-        $opponent_last = $this->result->getLastChoiceFor($this->opponentSide);
-        if ($opponent_last == parent::scissorsChoice()) {
-            $choice = parent::scissorsChoice();
-        } elseif ($opponent_last == parent::rockChoice()) {
-            $choice = parent::rockChoice();
-        }
-        return $choice;
     }
 };
