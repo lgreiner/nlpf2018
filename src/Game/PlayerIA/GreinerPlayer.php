@@ -17,14 +17,10 @@ class GreinerPlayer extends Player
 
     public function getChoice()
     {
+
+        //Ouai les variables ouai énorme !!!
         $NumRound = $this->result->getNbRound();
-        $enemy = $this->result->getStatsFor($this->opponentSide);
-        // [name] => Baccam
-        // [scissors] => 53
-        // [paper] => 0
-        // [rock] => 0
-        // [score] => 53
-        
+        $enemy = $this->result->getStatsFor($this->opponentSide);        
         $proba_scissors = $enemy['scissors'] / ($NumRound + 1);
         $proba_paper = $enemy['paper'] / ($NumRound + 1);
         $proba_rock = $enemy['rock'] / ($NumRound + 1);
@@ -32,6 +28,16 @@ class GreinerPlayer extends Player
         $last_opponent_choice = $this->result->getLastChoiceFor($this->opponentSide);
         $last_me_choice = $this->result->getLastChoiceFor($this->mySide);
         $choice = parent::paperChoice();
+        $last_opp = $this->result->getStatsFor($this->opponentSide);
+
+
+        if ($last_opp['name'] === 'Crepin') {
+            if ($NumRound % 2 === 0) {
+                return parent::paperChoice();
+            } else {
+                return parent::scissorsChoice();
+            }
+        }
         if (0 !== $last_opponent_choice) {
             if ($proba_scissors > 0.5) {
                 if ($last_opponent_score === 5 && $last_opponent_choice == parent::paperChoice()) {
