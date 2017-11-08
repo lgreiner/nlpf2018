@@ -41,8 +41,14 @@ class GreinerPlayer extends Player
         // How can i display the result of each round ? $this->prettyDisplay()
         // -------------------------------------    -----------------------------------------------------
 
-        $choice = parent::scissorsChoice();
-
+        $NumRound = $this->result->getNbRound();
+        $choice = parent::paperChoice();                    
+        $opponent_last = $this->result->getLastChoiceFor($this->opponentSide);
+        if ($opponent_last == parent::scissorsChoice()) {
+            $choice = parent::scissorsChoice();
+        } elseif ($opponent_last == parent::rockChoice()) {
+            $choice = parent::rockChoice();
+        }
         return $choice;
     }
 };
