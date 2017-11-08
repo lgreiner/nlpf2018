@@ -37,7 +37,16 @@ class GreinerPlayer extends Player
             } else {
                 return parent::scissorsChoice();
             }
+        } else if ($last_opp['name'] === 'Labat') {
+            if ($NumRound % 2 === 0) {
+                return parent::paperChoice();
+            } else {
+                return parent::scissorsChoice();
+            }
+        } else if ($last_opp['name'] === 'Debec') {
+            return parent::scissorsChoice();
         }
+
         if (0 !== $last_opponent_choice) {
             if ($proba_scissors > 0.5) {
                 if ($last_opponent_score === 5 && $last_opponent_choice == parent::paperChoice()) {
