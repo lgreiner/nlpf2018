@@ -48,7 +48,7 @@ class GreinerPlayer extends Player
         }
 
         if (0 !== $last_opponent_choice) {
-            if ($proba_scissors > 0.5) {
+            if ($proba_scissors > 0.65) {
                 if ($last_opponent_score === 5 && $last_opponent_choice == parent::paperChoice()) {
                     $choice = parent::scissorsChoice();                    
                 } elseif ($last_opponent_score === 0) {
@@ -57,7 +57,7 @@ class GreinerPlayer extends Player
                 else {
                     $choice = parent::rockChoice();
                 }
-            } elseif ($proba_paper > 0.5) {
+            } elseif ($proba_paper > 0.45) {
                 if ($last_opponent_score === 5 && $last_opponent_choice == parent::rockChoice()) {
                     $choice = parent::paperChoice();                    
                 } elseif ($last_opponent_score === 0) {
@@ -66,7 +66,7 @@ class GreinerPlayer extends Player
                 else {
                     $choice = parent::scissorsChoice();
                 }
-            } elseif ($proba_rock > 0.5) {
+            } elseif ($proba_rock > 0.62) {
                 if ($last_opponent_score === 5 && $last_opponent_choice == parent::scissorsChoice()) {
                     $choice = parent::rockChoice();                    
                 } elseif ($last_opponent_score === 0) {
